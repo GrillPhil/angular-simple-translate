@@ -1,2 +1,3 @@
 import { TranslateModule } from './src/translate/translate.module';
-export { TranslateModule };
+import { TranslateService } from './src/translate/translate.service';
+export { TranslateModule, TranslateService };

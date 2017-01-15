@@ -1,31 +1,140 @@
-# AngularSimpleTranslate
+# Angular-Simple-Translate
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
+[![npm version](https://badge.fury.io/js/angular-simple-translate.svg)](https://badge.fury.io/js/angular-simple-translate)  
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Simple translate module for Angular 2 based on a blog post by Jecelyn Yeen (chybie). Features include support for fallback language, nested objects and interpolation.
 
-## Code scaffolding
+## Installation & Setup
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+### #1 Install package with npm
 
-## Build
+```bash
+npm install angular-simple-translate
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+### #2 Import TranslateModule
 
-## Running unit tests
+```typescript
+import { TranslateModule } from 'angular-simple-translate';
+...
+@NgModule({
+    imports: [
+        TranslateModule,
+        ...
+    ],
+    ...
+})
+export class YourModule { }
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### #3 Create one or more language files
 
-## Running end-to-end tests
+`en.ts`
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+```typescript test.ts
+export const EN = {
+    "app": {
+        "title": "Angular-Simple-Translate Beispiel",
+        "greet": "Hello, %0 %1"
+    }
+};
+```
 
-## Deploying to Github Pages
+`de.ts`
 
-Run `ng github-pages:deploy` to deploy to Github Pages.
+```typescript
+export const DE = {
+    "app": {
+        "title": "Angular-Simple-Translate Beispiel",
+        "greet": "Hallo, %0 %1"
+    }
+};
+```
 
-## Further help
+### #4 Export translations as dictionary
 
-To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+`translations.ts`
+
+```typescript
+import { EN } from './en';
+import { DE } from './de';
+
+export const TRANSLATIONS = {
+    "en" : EN,
+    "de" : DE
+}
+```
+
+### #5 Configure TranslateService in your component
+
+`app.component.ts`
+
+```typescript
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent implements OnInit {
+
+  private readonly _translateService: TranslateService;
+
+  constructor(translateService: TranslateService) {
+    this._translateService = translateService;
+  }
+  
+  ngOnInit() {
+    this._translateService.init(TRANSLATIONS, navigator.language, 'en', true);
+  }
+}
+```
+
+## Usage
+
+## Usage in html template
+
+```html
+<h1>
+  {{ 'app.title' | translate }}
+</h1>
+{{ 'app.greet' | translate:['John', 'Doe'] }}
+```
+
+## Usage in typescript
+
+```typescript
+var title = this._translateService.instant('app.title');
+var greeting = this._translateService.instant('app.greet', ['John', 'Doe']);
+```
+
+## Run Demo App
+
+You can try out the Datepicker in the demo app built with [Angular-CLI](https://github.com/angular/angular-cli). 
+
+### #1 To start the demo app clone or download the repo.
+
+### #2 Install the latest version of Angular-CLI
+
+```bash
+npm install -g angular-cli@latest
+```
+
+### #3 Install npm packages
+
+```bash
+npm install
+```
+
+### #4 Run the app
+
+```bash
+ng serve
+```
+
+### #5 Open the app
+
+[http://localhost:4200/](http://localhost:4200/)
+
+## License
+
+MIT

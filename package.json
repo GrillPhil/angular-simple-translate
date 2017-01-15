@@ -1,6 +1,6 @@
 {
   "name": "angular-simple-translate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple translate module for Angular 2 based on a blog post by Jecelyn Yeen (chybie)",
   "keywords": ["angular", "angular2", "translate"],
   "repository": {
